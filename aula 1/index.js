@@ -16,23 +16,6 @@ app.get('/login', (req, resp) => {
     resp.send('pagina de login');
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
 app.listen(port, ()=>{
     console.log('servidor rodando na porta', port)
 

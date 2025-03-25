@@ -6,7 +6,7 @@ app.use(express.json());// vou habilitar json express
 const port = 3000
 // rota para criar usuário
 
-app.post("/users", (req, res) => {
+app.post("/users", async (req, res) => {
     const {id, nome, email, senha, endereco, telefone, cpf} = req.body;
 
     if (!nome || !email || !senha || !endereco || !telefone || !cpf){
@@ -15,7 +15,7 @@ app.post("/users", (req, res) => {
     }
 
 
-    const user = userService.addUser(nome, email, senha, endereco, telefone, cpf);
+    const user = await userService.addUser(nome, email, senha, endereco, telefone, cpf);
     res.status(200).json({user});
 });
 

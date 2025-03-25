@@ -1,6 +1,7 @@
 const User = require("./user"); ''
 const path = require("path") //path cria um caminho virtual que pode ser acessado de qualquer lugar da pasta Aula 3 ou tudo da frente da pasta (caminho relativo) (módulo para manipular caminhos)
 const fs = require("fs") //fs é FileSystem (módulo para manipular arquivos)
+const bcrypt = require('bcryptjs') //biblioteca para criptografar a senha
 
 class userService {
   constructor() { //quando não passa parâmetro traz um valor fixo, que não muda
@@ -41,13 +42,17 @@ class userService {
     }
   }
 
-    addUser(nome, email, senha, endereco, telefone, cpf) {
-      const user = new User(this.nextID++, nome, email, senha, endereco, telefone, cpf)  //cria novo user, e o novoid++ é pra toda vez aumentar um no id
+    async addUser(nome, email, senha, endereco, telefone, cpf) {
+      try {
+      const SenhaCripto = await bcrypt.hash(senha, 10);
+      const user = new User(this.nextID++, nome, email, SenhaCripto, endereco, telefone, cpf)  //cria novo user, e o novoid++ é pra toda vez aumentar um no id
       this.users.push(user) //da um push pra armazenar esse user no array de usuarios
       this.SaveUsers() //salva o user
-      return user
+      return user;
+    } catch (erro) {
+      console.log('erro ao cadastrar o ususrio', erro);
     }
-
+  }
 
     getUsers() {
       return this.users
